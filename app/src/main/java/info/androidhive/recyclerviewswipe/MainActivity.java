@@ -1,6 +1,5 @@
 package info.androidhive.recyclerviewswipe;
 
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -23,6 +22,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import info.androidhive.recyclerviewswipe.helper.RecyclerItemTouchHelper;
+import info.androidhive.recyclerviewswipe.model.Item;
 
 
 public class MainActivity extends AppCompatActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {

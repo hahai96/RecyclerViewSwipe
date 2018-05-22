@@ -1,4 +1,4 @@
-package info.androidhive.recyclerviewswipe;
+package info.androidhive.recyclerviewswipe.model;
 
 /**
  * Created by ravi on 26/09/17.

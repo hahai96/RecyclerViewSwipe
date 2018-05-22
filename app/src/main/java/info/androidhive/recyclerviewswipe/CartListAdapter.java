@@ -7,17 +7,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
-
-import java.util.Collections;
 import java.util.List;
-
 import info.androidhive.recyclerviewswipe.helper.ItemTouchHelperAdapter;
 import info.androidhive.recyclerviewswipe.helper.ItemTouchHelperViewHolder;
+import info.androidhive.recyclerviewswipe.model.Item;
 
 public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.MyViewHolder> implements ItemTouchHelperAdapter {
     private Context context;
@@ -27,6 +25,7 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.MyView
         public TextView name, description, price;
         public ImageView thumbnail;
         public RelativeLayout viewBackground, viewForeground;
+        public FrameLayout viewRoot;
 
         public MyViewHolder(View view) {
             super(view);
@@ -34,13 +33,14 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.MyView
             description = view.findViewById(R.id.description);
             price = view.findViewById(R.id.price);
             thumbnail = view.findViewById(R.id.thumbnail);
+            viewRoot = view.findViewById(R.id.view_root);
             viewBackground = view.findViewById(R.id.view_background);
             viewForeground = view.findViewById(R.id.view_foreground);
         }
 
         @Override
         public void onItemSelected() {
-            itemView.setBackgroundColor(Color.LTGRAY);
+            itemView.setBackgroundColor(Color.RED);
         }
 
         @Override
