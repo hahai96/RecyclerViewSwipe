@@ -15,7 +15,6 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 import info.androidhive.recyclerviewswipe.helper.ItemTouchHelperAdapter;
 import info.androidhive.recyclerviewswipe.helper.ItemTouchHelperViewHolder;
-import info.androidhive.recyclerviewswipe.model.Item;
 
 public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.MyViewHolder> implements ItemTouchHelperAdapter {
     private Context context;

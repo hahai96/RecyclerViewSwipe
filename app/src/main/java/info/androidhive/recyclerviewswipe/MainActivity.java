@@ -1,5 +1,6 @@
 package info.androidhive.recyclerviewswipe;
 
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -11,21 +12,23 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import info.androidhive.recyclerviewswipe.helper.RecyclerItemTouchHelper;
-import info.androidhive.recyclerviewswipe.model.Item;
-
 
 public class MainActivity extends AppCompatActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
 
@@ -35,8 +38,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemTouch
     private CartListAdapter mAdapter;
     private CoordinatorLayout coordinatorLayout;
 
-    FirebaseDatabase database;
-    DatabaseReference reference;
+    // url to fetch menu json
+    private static final String URL = "https://api.androidhive.info/json/menu.json";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,47 +72,63 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemTouch
         // making http call and fetching menu json
         prepareCart();
 
-//        ItemTouchHelper.SimpleCallback itemTouchHelperCallback1 = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT | ItemTouchHelper.UP) {
-//            @Override
-//            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-//                return false;
-//            }
-//
-//            @Override
-//            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-//                // Row is swiped from recycler view
-//                // remove it from adapter
-//            }
-//
-//            @Override
-//            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-//                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-//            }
-//        };
-//
-//        // attaching the touch helper to recycler view
-//        new ItemTouchHelper(itemTouchHelperCallback1).attachToRecyclerView(recyclerView);
-    }
-
-    private void prepareCart() {
-        database = FirebaseDatabase.getInstance();
-        reference = database.getReference("Item");
-        reference.addValueEventListener(new ValueEventListener() {
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback1 = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT | ItemTouchHelper.UP) {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot data: dataSnapshot.getChildren()) {
-                    Item item = data.getValue(Item.class);
-                    cartList.add(item);
-                }
-                mAdapter.notifyDataSetChanged();
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                // Row is swiped from recycler view
+                // remove it from adapter
+            }
 
+            @Override
+            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+            }
+        };
+
+        // attaching the touch helper to recycler view
+        new ItemTouchHelper(itemTouchHelperCallback1).attachToRecyclerView(recyclerView);
+    }
+
+    /**
+     * method make volley network call and parses json
+     */
+    private void prepareCart() {
+        JsonArrayRequest request = new JsonArrayRequest(URL,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        if (response == null) {
+                            Toast.makeText(getApplicationContext(), "Couldn't fetch the menu! Pleas try again.", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
+                        List<Item> items = new Gson().fromJson(response.toString(), new TypeToken<List<Item>>() {
+                        }.getType());
+
+                        // adding items to cart list
+                        cartList.clear();
+                        cartList.addAll(items);
+
+                        // refreshing recycler view
+                        mAdapter.notifyDataSetChanged();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // error in getting json
+                Log.d(TAG, "Error: " + error.getMessage());
+                Toast.makeText(getApplicationContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
+        MyApplication.getInstance().addToRequestQueue(request);
     }
+
     /**
      * callback when recycler view is swiped
      * item will be removed on swiped
