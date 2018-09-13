@@ -1,4 +1,4 @@
-package info.androidhive.recyclerviewswipe;
+package info.androidhive.recyclerviewswipe.list_androidhive.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -13,7 +13,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import java.util.List;
-import info.androidhive.recyclerviewswipe.helper.ItemTouchHelperViewHolder;
+
+import info.androidhive.recyclerviewswipe.R;
+import info.androidhive.recyclerviewswipe.list_androidhive.model.Item;
+import info.androidhive.recyclerviewswipe.list_androidhive.utils.ItemTouchHelperViewHolder;
 
 public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.MyViewHolder> {
     private Context context;
@@ -64,7 +67,7 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.MyView
         Log.d("restoreItem", ", restoreItem");
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder{
+    public class MyViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
         public TextView name, description, price;
         public ImageView thumbnail;
         public RelativeLayout viewBackground, viewForeground;

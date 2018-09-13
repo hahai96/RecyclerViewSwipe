@@ -1,4 +1,4 @@
-package info.androidhive.recyclerviewswipe;
+package info.androidhive.recyclerviewswipe.list_androidhive.model;
 
 public class Item {
     int id;

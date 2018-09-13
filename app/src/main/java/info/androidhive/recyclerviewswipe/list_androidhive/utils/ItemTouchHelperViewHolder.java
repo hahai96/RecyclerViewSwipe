@@ -1,4 +1,4 @@
-package info.androidhive.recyclerviewswipe.helper;
+package info.androidhive.recyclerviewswipe.list_androidhive.utils;
 
 /**
  * Created by ha_hai on 5/20/2018.

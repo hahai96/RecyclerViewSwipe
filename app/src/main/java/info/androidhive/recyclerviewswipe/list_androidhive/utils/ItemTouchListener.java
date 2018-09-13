@@ -1,4 +1,4 @@
-package info.androidhive.recyclerviewswipe.helper;
+package info.androidhive.recyclerviewswipe.list_androidhive.utils;
 
 import android.support.v7.widget.RecyclerView;
 

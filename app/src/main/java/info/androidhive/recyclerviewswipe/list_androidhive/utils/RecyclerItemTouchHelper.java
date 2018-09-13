@@ -1,4 +1,4 @@
-package info.androidhive.recyclerviewswipe.helper;
+package info.androidhive.recyclerviewswipe.list_androidhive.utils;
 
 /**
  * Created by ha_hai on 5/17/2018.
@@ -11,7 +11,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 
-import info.androidhive.recyclerviewswipe.CartListAdapter;
+import info.androidhive.recyclerviewswipe.list_androidhive.adapter.CartListAdapter;
 
 /**
  * Created by ravi on 29/09/17.
@@ -63,7 +63,6 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.Callback {
                 final View foregroundView = ((CartListAdapter.MyViewHolder) viewHolder).viewForeground;
                 getDefaultUIUtil().onSelected(foregroundView);
 
-
             } else if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
                 ItemTouchHelperViewHolder itemViewHolder = (ItemTouchHelperViewHolder) viewHolder;
                 itemViewHolder.onItemSelected();
@@ -85,9 +84,6 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.Callback {
                     actionState, isCurrentlyActive);
 
         } else if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
-//            final View viewRoot = ((CartListAdapter.MyViewHolder) viewHolder).viewRoot;
-//            getDefaultUIUtil().onDraw(c, recyclerView, viewRoot, dX, dY,
-//                    actionState, isCurrentlyActive);
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         }
 
@@ -125,11 +121,11 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.Callback {
     public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
         Log.d("AAA", "clearView");
 
-        final View foregroundView = ((CartListAdapter.MyViewHolder) viewHolder).viewForeground;
-        getDefaultUIUtil().clearView(foregroundView);
+//        final View foregroundView = ((CartListAdapter.MyViewHolder) viewHolder).viewForeground;
+//        getDefaultUIUtil().clearView(foregroundView);
 
-        ItemTouchHelperViewHolder itemViewHolder = (ItemTouchHelperViewHolder) viewHolder;
-        itemViewHolder.onItemClear();
+//        ItemTouchHelperViewHolder itemViewHolder = (ItemTouchHelperViewHolder) viewHolder;
+//        itemViewHolder.onItemClear();
     }
 
     /**
@@ -178,5 +174,10 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.Callback {
         Log.d("AAA", "isLongPressDragEnabled");
 
         return super.isLongPressDragEnabled();
+    }
+
+    @Override
+    public boolean isItemViewSwipeEnabled() {
+        return super.isItemViewSwipeEnabled();
     }
 }
