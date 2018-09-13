@@ -5,8 +5,10 @@ package info.androidhive.recyclerviewswipe.helper;
  */
 
 import android.graphics.Canvas;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.View;
 
 import info.androidhive.recyclerviewswipe.CartListAdapter;
@@ -15,14 +17,34 @@ import info.androidhive.recyclerviewswipe.CartListAdapter;
  * Created by ravi on 29/09/17.
  */
 
-public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
-    private RecyclerItemTouchHelperListener listener;
+public class RecyclerItemTouchHelper extends ItemTouchHelper.Callback {
+    private ItemTouchListener listener;
     CartListAdapter adapter;
 
-    public RecyclerItemTouchHelper(int dragDirs, int swipeDirs, RecyclerItemTouchHelperListener listener, CartListAdapter adapter) {
-        super(dragDirs, swipeDirs);
+    public RecyclerItemTouchHelper(int dragDirs, ItemTouchListener listener, CartListAdapter adapter) {
         this.listener = listener;
         this.adapter = adapter;
+    }
+
+    /**
+     * Trả về flags tổng hợp xác định hướng di chuyển trong mỗi trạng thái (idle, swipe, drag)
+     * Thay vì thực hiện cờ này theo cách thủ công, bạn có thể sử dụng makeMovementFlags hoặc makeFlag
+     * Cờ này bao gồm 3 bộ 8 bit, 8bit đầu là của trạng thái IDLE, 8bit tiếp theo cho SWIPE, còn lại là DRAG.
+     * Mỗi 8bit có thể được xây dựng bằng toán tử OR trong ItemTouchHelper
+     * EX: makeFlag(ACTION_STATE_IDLE, RIGHT) | makeFlag(ACTION_STATE_SWIPE, LEFT | RIGHT);
+     */
+    @Override
+    public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+        // Set movement flags based on the layout manager
+        if (recyclerView.getLayoutManager() instanceof GridLayoutManager) {
+            final int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
+            final int swipeFlags = 0;
+            return makeMovementFlags(dragFlags, swipeFlags);
+        } else {
+            final int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+            final int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+            return makeMovementFlags(dragFlags, swipeFlags);
+        }
     }
 
 
@@ -35,10 +57,12 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
      */
     @Override
     public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
+        Log.d("AAA", "onSelectedChanged");
         if (viewHolder != null) {
             if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
                 final View foregroundView = ((CartListAdapter.MyViewHolder) viewHolder).viewForeground;
                 getDefaultUIUtil().onSelected(foregroundView);
+
 
             } else if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
                 ItemTouchHelperViewHolder itemViewHolder = (ItemTouchHelperViewHolder) viewHolder;
@@ -48,44 +72,49 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
     }
 
     /**
+     Phương thức này cũng như onChildDrawOver nhưng nó vẽ đối tượng bên dưới
+     */
+    @Override
+    public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState,
+                            boolean isCurrentlyActive) {
+        Log.d("AAA", "onChildDraw");
+
+        if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+            final View foregroundView = ((CartListAdapter.MyViewHolder) viewHolder).viewForeground;
+            getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY,
+                    actionState, isCurrentlyActive);
+
+        } else if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+//            final View viewRoot = ((CartListAdapter.MyViewHolder) viewHolder).viewRoot;
+//            getDefaultUIUtil().onDraw(c, recyclerView, viewRoot, dX, dY,
+//                    actionState, isCurrentlyActive);
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+        }
+
+    }
+
+
+    /**
      * Phương thức này được gọi rất nhiều lần, cập nhật animation khi ta swipe, drag view
      */
     @Override
     public void onChildDrawOver(Canvas c, RecyclerView recyclerView,
                                 RecyclerView.ViewHolder viewHolder, float dX, float dY,
                                 int actionState, boolean isCurrentlyActive) {
-        if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-            final View foregroundView = ((CartListAdapter.MyViewHolder) viewHolder).viewForeground;
-            getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY,
-                    actionState, isCurrentlyActive);
-
-        } else if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
-            final View viewRoot = ((CartListAdapter.MyViewHolder) viewHolder).viewRoot;
-            getDefaultUIUtil().onDraw(c, recyclerView, viewRoot, dX, dY,
-                    actionState, isCurrentlyActive);
-        }
-    }
-
-    /**
-     Phương thức này cũng như onChildDrawOver nhưng nó vẽ đối tượng bên dưới
-     */
-    @Override
-    public void onChildDraw(Canvas c, RecyclerView recyclerView,
-                            RecyclerView.ViewHolder viewHolder, float dX, float dY,
-                            int actionState, boolean isCurrentlyActive) {
+        Log.d("AAA", "onChildDrawOver");
 
         if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
             final View foregroundView = ((CartListAdapter.MyViewHolder) viewHolder).viewForeground;
             getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY,
                     actionState, isCurrentlyActive);
 
-        } else if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+        }
+        else if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
             final View viewRoot = ((CartListAdapter.MyViewHolder) viewHolder).viewRoot;
             getDefaultUIUtil().onDraw(c, recyclerView, viewRoot, dX, dY,
                     actionState, isCurrentlyActive);
         }
     }
-
 
     /**
      * Phương thức này được gọi cuối cùng, sau khi người dùng đã tương tác (swiped, dragged) xong với view
@@ -94,6 +123,8 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
      */
     @Override
     public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+        Log.d("AAA", "clearView");
+
         final View foregroundView = ((CartListAdapter.MyViewHolder) viewHolder).viewForeground;
         getDefaultUIUtil().clearView(foregroundView);
 
@@ -113,6 +144,8 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
      */
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+        Log.d("AAA", "onSwiped");
+
         listener.onSwiped(viewHolder, direction, viewHolder.getAdapterPosition());
     }
 
@@ -125,30 +158,14 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
         return super.convertToAbsoluteDirection(flags, layoutDirection);
     }
 
-    //interface for on Swipe
-    public interface RecyclerItemTouchHelperListener {
-        void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position);
-    }
-
-
-    /**
-     * Trả về flags tổng hợp xác định hướng di chuyển trong mỗi trạng thái (idle, swipe, drag)
-     * Thay vì thực hiện cờ này theo cách thủ công, bạn có thể sử dụng makeMovementFlags hoặc makeFlag
-     * Cờ này bao gồm 3 bộ 8 bit, 8bit đầu là của trạng thái IDLE, 8bit tiếp theo cho SWIPE, còn lại là DRAG.
-     * Mỗi 8bit có thể được xây dựng bằng toán tử OR trong ItemTouchHelper
-     * EX: makeFlag(ACTION_STATE_IDLE, RIGHT) | makeFlag(ACTION_STATE_SWIPE, LEFT | RIGHT);
-     */
-    @Override
-    public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-        int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
-        int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
-        return makeMovementFlags(dragFlags, swipeFlags);
-    }
+    //----------------------------------------------------------------------------------------------------------------------------------------
 
     @Override
     public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
                           RecyclerView.ViewHolder target) {
-        adapter.onItemMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+        Log.d("AAA", "onMove");
+
+        listener.onItemMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
         return true;
     }
 
@@ -158,12 +175,8 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
      */
     @Override
     public boolean isLongPressDragEnabled() {
+        Log.d("AAA", "isLongPressDragEnabled");
+
         return super.isLongPressDragEnabled();
     }
-
-    @Override
-    public boolean isItemViewSwipeEnabled() {
-        return true;
-    }
-
 }

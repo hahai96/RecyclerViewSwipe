@@ -13,40 +13,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import java.util.List;
-import info.androidhive.recyclerviewswipe.helper.ItemTouchHelperAdapter;
 import info.androidhive.recyclerviewswipe.helper.ItemTouchHelperViewHolder;
 
-public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.MyViewHolder> implements ItemTouchHelperAdapter {
+public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.MyViewHolder> {
     private Context context;
     private List<Item> cartList;
-
-    public class MyViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder{
-        public TextView name, description, price;
-        public ImageView thumbnail;
-        public RelativeLayout viewBackground, viewForeground;
-        public FrameLayout viewRoot;
-
-        public MyViewHolder(View view) {
-            super(view);
-            name = view.findViewById(R.id.name);
-            description = view.findViewById(R.id.description);
-            price = view.findViewById(R.id.price);
-            thumbnail = view.findViewById(R.id.thumbnail);
-            viewRoot = view.findViewById(R.id.view_root);
-            viewBackground = view.findViewById(R.id.view_background);
-            viewForeground = view.findViewById(R.id.view_foreground);
-        }
-
-        @Override
-        public void onItemSelected() {
-            itemView.setBackgroundColor(Color.RED);
-        }
-
-        @Override
-        public void onItemClear() {
-            itemView.setBackgroundColor(0);
-        }
-    }
 
     public CartListAdapter(Context context, List<Item> cartList) {
         this.context = context;
@@ -93,16 +64,32 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.MyView
         Log.d("restoreItem", ", restoreItem");
     }
 
-    @Override
-    public void onItemDismiss(int position) {
-        cartList.remove(position);
-        notifyItemRemoved(position);
-    }
+    public class MyViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder{
+        public TextView name, description, price;
+        public ImageView thumbnail;
+        public RelativeLayout viewBackground, viewForeground;
+        public FrameLayout viewRoot;
 
-    @Override
-    public void onItemMove(int fromPosition, int toPosition) {
-        Item prev = cartList.remove(fromPosition);
-        cartList.add(toPosition > fromPosition ? toPosition - 1 : toPosition, prev);
-        notifyItemMoved(fromPosition, toPosition);
+        public MyViewHolder(View view) {
+            super(view);
+            name = view.findViewById(R.id.name);
+            description = view.findViewById(R.id.description);
+            price = view.findViewById(R.id.price);
+            thumbnail = view.findViewById(R.id.thumbnail);
+            viewRoot = view.findViewById(R.id.view_root);
+            viewBackground = view.findViewById(R.id.view_background);
+            viewForeground = view.findViewById(R.id.view_foreground);
+
+        }
+
+        @Override
+        public void onItemSelected() {
+           itemView.setBackgroundColor(Color.RED);
+        }
+
+        @Override
+        public void onItemClear() {
+            itemView.setBackgroundColor(0);
+        }
     }
 }

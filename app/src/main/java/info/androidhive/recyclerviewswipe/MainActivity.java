@@ -28,9 +28,10 @@ import org.json.JSONArray;
 import java.util.ArrayList;
 import java.util.List;
 
+import info.androidhive.recyclerviewswipe.helper.ItemTouchListener;
 import info.androidhive.recyclerviewswipe.helper.RecyclerItemTouchHelper;
 
-public class MainActivity extends AppCompatActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
+public class MainActivity extends AppCompatActivity implements ItemTouchListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private RecyclerView recyclerView;
@@ -61,37 +62,11 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemTouch
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(mAdapter);
 
-        // adding item touch helper
-        // only ItemTouchHelper.LEFT added to detect Right to Left swipe
-        // if you want both Right -> Left and Left -> Right
-        // add pass ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT as param
-        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this, mAdapter);
+        ItemTouchHelper.Callback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, this, mAdapter);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
-
 
         // making http call and fetching menu json
         prepareCart();
-
-        ItemTouchHelper.SimpleCallback itemTouchHelperCallback1 = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT | ItemTouchHelper.UP) {
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                // Row is swiped from recycler view
-                // remove it from adapter
-            }
-
-            @Override
-            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-            }
-        };
-
-        // attaching the touch helper to recycler view
-        new ItemTouchHelper(itemTouchHelperCallback1).attachToRecyclerView(recyclerView);
     }
 
     /**
@@ -129,6 +104,13 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemTouch
         MyApplication.getInstance().addToRequestQueue(request);
     }
 
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+        Item prev = cartList.remove(fromPosition);
+        cartList.add(toPosition > fromPosition ? toPosition - 1 : toPosition, prev);
+        mAdapter.notifyItemMoved(fromPosition, toPosition);
+    }
+
     /**
      * callback when recycler view is swiped
      * item will be removed on swiped
@@ -141,8 +123,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemTouch
             String name = cartList.get(viewHolder.getAdapterPosition()).getName();
 
             // backup of removed item for undo purpose
-            final Item deletedItem = cartList.get(viewHolder.getAdapterPosition());
             final int deletedIndex = viewHolder.getAdapterPosition();
+            final Item deletedItem = cartList.get(deletedIndex);
 
             // remove the item from recycler view
             mAdapter.removeItem(viewHolder.getAdapterPosition());
