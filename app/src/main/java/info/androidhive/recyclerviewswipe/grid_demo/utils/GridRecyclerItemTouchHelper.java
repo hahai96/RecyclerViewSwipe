@@ -1,6 +1,7 @@
-package info.androidhive.recyclerviewswipe.list_demo.utils;
+package info.androidhive.recyclerviewswipe.grid_demo.utils;
 
 import android.graphics.Canvas;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -10,19 +11,15 @@ import android.support.v7.widget.helper.ItemTouchHelper;
  * Created by ha_hai on 9/13/2018.
  */
 
-public class ListRecyclerItemTouchHelper extends ItemTouchHelper.Callback {
+public class GridRecyclerItemTouchHelper extends ItemTouchHelper.Callback {
 
-    ListItemTouchListListener listener;
+    GridItemTouchListListener listener;
     private final float ALPHA_FULL = 1.0f;
 
-    public ListRecyclerItemTouchHelper(ListItemTouchListListener listener) {
+    public GridRecyclerItemTouchHelper(GridItemTouchListListener listener) {
         this.listener = listener;
     }
 
-    @Override
-    public boolean isItemViewSwipeEnabled() {
-        return super.isItemViewSwipeEnabled();
-    }
 
     @Override
     public boolean isLongPressDragEnabled() {
@@ -31,10 +28,9 @@ public class ListRecyclerItemTouchHelper extends ItemTouchHelper.Callback {
 
     @Override
     public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-        if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
-            int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
-            int swipeFlags = ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
-            return makeMovementFlags(dragFlags, swipeFlags);
+        if (recyclerView.getLayoutManager() instanceof GridLayoutManager) {
+            int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
+            return makeMovementFlags(dragFlags, 0);
         }
         return 0;
     }
@@ -47,14 +43,13 @@ public class ListRecyclerItemTouchHelper extends ItemTouchHelper.Callback {
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-        listener.onSwipe(viewHolder.getAdapterPosition(), direction);
     }
 
     @Override
     public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
         if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
-            if (viewHolder instanceof ListItemTouchHelperViewHolder) {
-                ListItemTouchHelperViewHolder holder = (ListItemTouchHelperViewHolder) viewHolder;
+            if (viewHolder instanceof GridItemTouchHelperViewHolder) {
+                GridItemTouchHelperViewHolder holder = (GridItemTouchHelperViewHolder) viewHolder;
                 holder.onSelected();
             }
         }
@@ -64,12 +59,7 @@ public class ListRecyclerItemTouchHelper extends ItemTouchHelper.Callback {
 
     @Override
     public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-        if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-            // Fade out the view as it is swiped out of the parent's bounds
-            final float alpha = ALPHA_FULL - Math.abs(dX) / (float) viewHolder.itemView.getWidth();
-            viewHolder.itemView.setAlpha(alpha);
-            viewHolder.itemView.setTranslationX(dX);
-        } else if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+        if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         }
     }
@@ -80,8 +70,8 @@ public class ListRecyclerItemTouchHelper extends ItemTouchHelper.Callback {
 
         viewHolder.itemView.setAlpha(ALPHA_FULL);
 
-        if (viewHolder instanceof ListItemTouchHelperViewHolder) {
-            ListItemTouchHelperViewHolder holder = (ListItemTouchHelperViewHolder) viewHolder;
+        if (viewHolder instanceof GridItemTouchHelperViewHolder) {
+            GridItemTouchHelperViewHolder holder = (GridItemTouchHelperViewHolder) viewHolder;
             holder.onClear();
         }
     }

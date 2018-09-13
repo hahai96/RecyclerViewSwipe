@@ -23,7 +23,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".list_androidhive.AndroidhiveActivity" />
-        <activity android:name=".list_demo.ListActivity"></activity>
+        <activity android:name=".list_demo.ListActivity" />
+        <activity android:name=".grid_demo.GridActivity"/>
     </application>
 
 </manifest>

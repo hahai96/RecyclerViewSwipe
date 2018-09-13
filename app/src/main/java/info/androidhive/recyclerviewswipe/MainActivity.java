@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 
+import info.androidhive.recyclerviewswipe.grid_demo.GridActivity;
 import info.androidhive.recyclerviewswipe.list_androidhive.AndroidhiveActivity;
 import info.androidhive.recyclerviewswipe.list_demo.ListActivity;
 
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(ListActivity.class);
                 break;
             case R.id.btnGrid:
+                startActivity(GridActivity.class);
                 break;
             case R.id.btnAndroidHive:
                 startActivity(AndroidhiveActivity.class);
