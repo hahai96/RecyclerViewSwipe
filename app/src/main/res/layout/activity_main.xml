@@ -26,4 +26,10 @@
         android:layout_height="wrap_content"
         android:text="Grid"/>
 
+    <Button
+        android:id="@+id/btnItemDecoration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Item Decoration"/>
+
 </LinearLayout>

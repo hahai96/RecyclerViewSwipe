@@ -24,7 +24,8 @@
         </activity>
         <activity android:name=".list_androidhive.AndroidhiveActivity" />
         <activity android:name=".list_demo.ListActivity" />
-        <activity android:name=".grid_demo.GridActivity"/>
+        <activity android:name=".grid_demo.GridActivity" />
+        <activity android:name=".item_decoration.DecorationActivity"></activity>
     </application>
 
 </manifest>

@@ -13,6 +13,7 @@ import java.util.Collections;
 
 import info.androidhive.recyclerviewswipe.R;
 import info.androidhive.recyclerviewswipe.list_demo.adapter.RecyclerListAdapter;
+import info.androidhive.recyclerviewswipe.list_demo.utils.ListItemDecorationHelper;
 import info.androidhive.recyclerviewswipe.list_demo.utils.ListItemTouchListListener;
 import info.androidhive.recyclerviewswipe.list_demo.utils.OnDragListener;
 import info.androidhive.recyclerviewswipe.list_demo.utils.ListRecyclerItemTouchHelper;
@@ -39,6 +40,8 @@ public class ListActivity extends AppCompatActivity implements ListItemTouchList
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recycler_list.setLayoutManager(layoutManager);
         recycler_list.setItemAnimator(new DefaultItemAnimator());
+
+        recycler_list.addItemDecoration(new ListItemDecorationHelper(this, 2));
 
         ItemTouchHelper.Callback callback = new ListRecyclerItemTouchHelper(this);
         itemTouchHelper = new ItemTouchHelper(callback);

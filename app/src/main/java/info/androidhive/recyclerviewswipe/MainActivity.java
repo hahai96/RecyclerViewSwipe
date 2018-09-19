@@ -9,12 +9,14 @@ import android.view.View;
 import android.widget.Button;
 
 import info.androidhive.recyclerviewswipe.grid_demo.GridActivity;
+import info.androidhive.recyclerviewswipe.item_decoration.DecorationActivity;
 import info.androidhive.recyclerviewswipe.list_androidhive.AndroidhiveActivity;
 import info.androidhive.recyclerviewswipe.list_demo.ListActivity;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button btnAndroidHive, btnList, btnGrid;
+    Button btnDecoration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,11 +26,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnAndroidHive = findViewById(R.id.btnAndroidHive);
         btnList = findViewById(R.id.btnList);
         btnGrid = findViewById(R.id.btnGrid);
+        btnDecoration = findViewById(R.id.btnItemDecoration);
 
         btnAndroidHive.setOnClickListener(this);
         btnList.setOnClickListener(this);
         btnGrid.setOnClickListener(this);
-
+        btnDecoration.setOnClickListener(this);
     }
 
     @Override
@@ -49,6 +52,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btnAndroidHive:
                 startActivity(AndroidhiveActivity.class);
+                break;
+            case R.id.btnItemDecoration:
+                startActivity(DecorationActivity.class);
                 break;
         }
     }

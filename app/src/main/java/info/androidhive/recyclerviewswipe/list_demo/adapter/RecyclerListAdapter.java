@@ -73,6 +73,13 @@ public class RecyclerListAdapter extends RecyclerView.Adapter<RecyclerListAdapte
                    return false;
                }
            });
+
+           itemView.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View view) {
+
+               }
+           });
         }
 
         @Override

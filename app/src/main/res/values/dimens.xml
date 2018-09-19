@@ -3,4 +3,7 @@
     <dimen name="padd_10">10dp</dimen>
     <dimen name="ic_delete">30dp</dimen>
     <dimen name="thumbnail">90dp</dimen>
+    <dimen name="spaceHeight">2</dimen>
+    <dimen name="header">30dp</dimen>
+
 </resources>
