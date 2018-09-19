@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import info.androidhive.recyclerviewswipe.R;
 import info.androidhive.recyclerviewswipe.grid_demo.utils.GridItemTouchHelperViewHolder;
 import info.androidhive.recyclerviewswipe.grid_demo.utils.OnDragGridListener;
-import info.androidhive.recyclerviewswipe.list_demo.utils.ListItemTouchHelperViewHolder;
-import info.androidhive.recyclerviewswipe.list_demo.utils.OnDragListener;
 
 /**
  * Created by ha_hai on 9/13/2018.
@@ -36,7 +34,7 @@ public class RecyclerGridAdapter extends RecyclerView.Adapter<RecyclerGridAdapte
     public MyHolder onCreateViewHolder(ViewGroup parent,
                                        int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_row_list, parent, false);
+                .inflate(R.layout.item_list, parent, false);
         return new MyHolder(v);
     }
 

@@ -33,7 +33,9 @@ public class DecorationActivity extends AppCompatActivity {
         rcv_decoration.setAdapter(adapter);
 
         HeaderItemDecoration sectionItemDecoration =
-                new HeaderItemDecoration(getResources().getDimensionPixelSize(R.dimen.header),
+                new HeaderItemDecoration(DecorationActivity.this,
+                        getResources().getDimensionPixelSize(R.dimen.spaceHeight),
+                        getResources().getDimensionPixelSize(R.dimen.header),
                         true,
                         getSectionCallback(getData()));
         rcv_decoration.addItemDecoration(sectionItemDecoration);

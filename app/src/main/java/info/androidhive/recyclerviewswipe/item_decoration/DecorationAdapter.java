@@ -26,7 +26,7 @@ public class DecorationAdapter extends RecyclerView.Adapter<DecorationAdapter.Ho
 
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.view_item, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_decoration, parent, false);
         return new Holder(view);
     }
 
