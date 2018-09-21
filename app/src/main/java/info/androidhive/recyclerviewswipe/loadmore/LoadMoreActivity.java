@@ -55,7 +55,7 @@ public class LoadMoreActivity extends AppCompatActivity {
     // Append the next page of data into the adapter
     // This method probably sends out a network request and appends new data items to your adapter.
     public void loadNextDataFromApi() {
-        final int iCurrLoading = number;
+        final int iStartLoading = number;
 
         if (number == 0) {
             dialog = new ProgressDialog(this);
@@ -83,7 +83,7 @@ public class LoadMoreActivity extends AppCompatActivity {
                 }
 
                 List<ApplicationInfo> list = mPackageManager.getInstalledApplications(PackageManager.GET_META_DATA);
-                for (int i = iCurrLoading; elLoaded < 10 && i < list.size(); i++) {
+                for (int i = iStartLoading; elLoaded < 10 && i < list.size(); i++) {
                     try {
                         Drawable icon = list.get(i).loadIcon(mPackageManager);
                         String name = list.get(i).loadLabel(mPackageManager).toString();
@@ -109,7 +109,7 @@ public class LoadMoreActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         mAdapter.setApps(mItems);
-                        mAdapter.notifyItemRangeInserted(iCurrLoading, mItems.size());
+                        mAdapter.notifyItemRangeInserted(iStartLoading, mItems.size());
                         mAdapter.setLoaded();
                     }
                 });
