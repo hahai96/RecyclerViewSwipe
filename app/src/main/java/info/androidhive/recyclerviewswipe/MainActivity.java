@@ -1,6 +1,5 @@
 package info.androidhive.recyclerviewswipe;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,15 +7,17 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 
-import info.androidhive.recyclerviewswipe.grid_demo.GridActivity;
-import info.androidhive.recyclerviewswipe.item_decoration.DecorationActivity;
-import info.androidhive.recyclerviewswipe.list_androidhive.AndroidhiveActivity;
-import info.androidhive.recyclerviewswipe.list_demo.ListActivity;
+import info.androidhive.recyclerviewswipe.gid_swipe_drag_and_drop.GridActivity;
+import info.androidhive.recyclerviewswipe.decoration.DecorationActivity;
+import info.androidhive.recyclerviewswipe.list_androidhive_swipe_drag_and_drop.AndroidhiveActivity;
+import info.androidhive.recyclerviewswipe.list_swipe_drag_and_drop.ListActivity;
+import info.androidhive.recyclerviewswipe.loadmore.LoadMoreActivity;
+import info.androidhive.recyclerviewswipe.nestle.NestleActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button btnAndroidHive, btnList, btnGrid;
-    Button btnDecoration;
+    Button btnDecoration, btnNestleRcv, btnLoadMore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,12 +27,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnAndroidHive = findViewById(R.id.btnAndroidHive);
         btnList = findViewById(R.id.btnList);
         btnGrid = findViewById(R.id.btnGrid);
+        btnNestleRcv = findViewById(R.id.btnNestleRcv);
         btnDecoration = findViewById(R.id.btnItemDecoration);
+        btnLoadMore = findViewById(R.id.btnLoadMore);
 
         btnAndroidHive.setOnClickListener(this);
         btnList.setOnClickListener(this);
         btnGrid.setOnClickListener(this);
         btnDecoration.setOnClickListener(this);
+        btnNestleRcv.setOnClickListener(this);
+        btnLoadMore.setOnClickListener(this);
     }
 
     @Override
@@ -55,6 +60,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btnItemDecoration:
                 startActivity(DecorationActivity.class);
+                break;
+            case R.id.btnNestleRcv:
+                startActivity(NestleActivity.class);
+                break;
+            case R.id.btnLoadMore:
+                startActivity(LoadMoreActivity.class);
                 break;
         }
     }

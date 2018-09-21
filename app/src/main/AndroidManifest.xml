@@ -22,10 +22,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".list_androidhive.AndroidhiveActivity" />
-        <activity android:name=".list_demo.ListActivity" />
-        <activity android:name=".grid_demo.GridActivity" />
-        <activity android:name=".item_decoration.DecorationActivity"></activity>
+        <activity android:name=".list_androidhive_swipe_drag_and_drop.AndroidhiveActivity" />
+        <activity android:name=".list_swipe_drag_and_drop.ListActivity" />
+        <activity android:name=".gid_swipe_drag_and_drop.GridActivity" />
+        <activity android:name=".decoration.DecorationActivity" />
+        <activity android:name=".nestle.NestleActivity" />
+        <activity android:name=".loadmore.LoadMoreActivity"></activity>
     </application>
 
 </manifest>

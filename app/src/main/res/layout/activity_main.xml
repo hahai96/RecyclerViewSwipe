@@ -32,4 +32,16 @@
         android:layout_height="wrap_content"
         android:text="Item Decoration"/>
 
+    <Button
+        android:id="@+id/btnNestleRcv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nestle RecyclerView"/>
+
+    <Button
+        android:id="@+id/btnLoadMore"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Load More"/>
+
 </LinearLayout>

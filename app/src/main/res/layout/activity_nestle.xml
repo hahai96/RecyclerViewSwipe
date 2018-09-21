@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="info.androidhive.recyclerviewswipe.list_swipe_drag_and_drop.ListActivity">
+    tools:context="info.androidhive.recyclerviewswipe.nestle.NestleActivity">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_grid"
+        android:id="@+id/rcv_nestle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>
