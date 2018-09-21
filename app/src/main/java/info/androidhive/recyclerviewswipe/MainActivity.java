@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import info.androidhive.recyclerviewswipe.gid_swipe_drag_and_drop.GridActivity;
 import info.androidhive.recyclerviewswipe.decoration.DecorationActivity;
+import info.androidhive.recyclerviewswipe.header_grid.GridHeaderActivity;
 import info.androidhive.recyclerviewswipe.list_androidhive_swipe_drag_and_drop.AndroidhiveActivity;
 import info.androidhive.recyclerviewswipe.list_swipe_drag_and_drop.ListActivity;
 import info.androidhive.recyclerviewswipe.loadmore.LoadMoreActivity;
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     Button btnAndroidHive, btnList, btnGrid;
     Button btnDecoration, btnNestleRcv, btnLoadMore;
+    Button btnGridHeader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnNestleRcv = findViewById(R.id.btnNestleRcv);
         btnDecoration = findViewById(R.id.btnItemDecoration);
         btnLoadMore = findViewById(R.id.btnLoadMore);
+        btnGridHeader = findViewById(R.id.btnGridHeader);
 
         btnAndroidHive.setOnClickListener(this);
         btnList.setOnClickListener(this);
@@ -37,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnDecoration.setOnClickListener(this);
         btnNestleRcv.setOnClickListener(this);
         btnLoadMore.setOnClickListener(this);
+        btnGridHeader.setOnClickListener(this);
     }
 
     @Override
@@ -66,6 +70,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btnLoadMore:
                 startActivity(LoadMoreActivity.class);
+                break;
+            case R.id.btnGridHeader:
+                startActivity(GridHeaderActivity.class);
                 break;
         }
     }
