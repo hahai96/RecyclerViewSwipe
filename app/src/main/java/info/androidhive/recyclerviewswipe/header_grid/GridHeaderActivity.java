@@ -2,7 +2,10 @@ package info.androidhive.recyclerviewswipe.header_grid;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -27,8 +30,7 @@ public class GridHeaderActivity extends AppCompatActivity {
         final GridLayoutManager manager = new GridLayoutManager(this, 3);
         rcvGridHeader.setLayoutManager(manager);
 
-        final HeaderNumberedAdapter adapter
-                = new HeaderNumberedAdapter(this, items);
+        final HeaderNumberedAdapter adapter = new HeaderNumberedAdapter(this, items);
         rcvGridHeader.setAdapter(adapter);
 
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {

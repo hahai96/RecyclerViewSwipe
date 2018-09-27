@@ -109,7 +109,7 @@ public class LoadMoreActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         mAdapter.setApps(mItems);
-                        mAdapter.notifyItemRangeInserted(iStartLoading, mItems.size());
+                        mAdapter.notifyDataSetChanged();
                         mAdapter.setLoaded();
                     }
                 });
